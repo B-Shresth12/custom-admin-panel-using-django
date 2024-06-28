@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!--  Title -->
+    <title>Admin Dashboard</title>
+    <!--  Required Meta Tag -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="handheldfriendly" content="true" />
+    <meta name="MobileOptimized" content="width" />
+    <meta name="description" content="Mordenize" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="Mordenize" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--  Favicon -->
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'dashboard/images/logos/favicon.ico'%}"
+    />
+    <!-- Owl Carousel  -->
+    <link
+      rel="stylesheet"
+      href="{% static 'dashboard/libs/owl.carousel/dist/assets/owl.carousel.min.css'%}"
+    />
+
+    <!-- Core Css -->
+    <link
+      id="themeColors"
+      rel="stylesheet"
+      href="{%  static 'dashboard/css/style.min.css' %}"
+    />
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <img
+        src="{% static 'dashboard/images/logos/favicon.ico'%}"
+        alt="loader"
+        class="lds-ripple img-fluid"
+      />
+    </div>
+    <!-- Preloader -->
+    <div class="preloader">
+      <img
+        src="{% static 'dashboard/images/logos/favicon.ico'%}"
+        alt="loader"
+        class="lds-ripple img-fluid"
+      />
+    </div>
+    <!--  Body Wrapper -->
+    {% block main %}{% endblock  %}
+
+
+
+    <!--  Customizer -->
+    <!--  Import Js Files -->
+    <script src="{% static 'dashboard/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'dashboard/libs/simplebar/dist/simplebar.min.js' %}"></script>
+    <script src="{% static 'dashboard/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!--  core files -->
+    <script src="{% static 'dashboard/js/app.min.js'%}"></script>
+    <script src="{% static 'dashboard/js/app.init.js'%}"></script>
+    <script src="{% static 'dashboard/js/app-style-switcher.js'%}"></script>
+    <script src="{% static 'dashboard/js/sidebarmenu.js'%}"></script>
+    <script src="{% static 'dashboard/js/custom.js'%}"></script>
+    <!--  current page js files -->
+    <script src="{% static 'dashboard/libs/owl.carousel/dist/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'dashboard/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/dashboard.js'%}"></script>
+  </body>
+</html>
