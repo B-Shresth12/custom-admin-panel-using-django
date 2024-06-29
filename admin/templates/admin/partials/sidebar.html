@@ -14,22 +14,22 @@
     <!-- Dashboard -->
     <!-- =================== -->
     <li class="sidebar-item">
-      <a class="sidebar-link" href="./index.html" aria-expanded="false">
+      <a class="sidebar-link" href="{% url 'admin:dashboard' %}" aria-expanded="false">
         <span>
           <i class="ti ti-aperture"></i>
         </span>
-        <span class="hide-menu">Modern</span>
+        <span class="hide-menu">Dashboard</span>
       </a>
     </li>
     <li class="sidebar-item">
-      <a class="sidebar-link" href="./index2.html" aria-expanded="false">
+      <a class="sidebar-link" href="{% url 'admin:siteSetting' %}" aria-expanded="false">
         <span>
           <i class="ti ti-shopping-cart"></i>
         </span>
-        <span class="hide-menu">eCommerce</span>
+        <span class="hide-menu">Site Management</span>
       </a>
     </li>
-    <li class="sidebar-item">
+    {% comment %} <li class="sidebar-item">
       <a class="sidebar-link" href="./index3.html" aria-expanded="false">
         <span>
           <i class="ti ti-currency-dollar"></i>
@@ -60,5 +60,5 @@
         </span>
         <span class="hide-menu">Music</span>
       </a>
-    </li>
+    </li> {% endcomment %}
 </nav>

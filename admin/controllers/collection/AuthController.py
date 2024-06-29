@@ -19,13 +19,12 @@ class AdminLoginView(View):
             user = form.get_user()
             login(request, user)
             if user.is_superuser:
-                return redirect('admin:home')
-            
-            # logout(user)
-            return redirect('welcome')
-
+                return redirect('admin:dashboard')
+            else:
+                return HttpResponse("Forbidden", status=403)
 
         return render(request, "admin/login.html", {"form": form})
+
 
 class AdminLogoutView(View):
     def post(self, request):

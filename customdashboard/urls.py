@@ -11,3 +11,6 @@ urlpatterns = [
     path('', redirectToHome, name="welcome"),
     path('admin/', include('admin.urls')),
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

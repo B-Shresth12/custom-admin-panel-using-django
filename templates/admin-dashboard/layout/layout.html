@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <!--  Title -->
-    <title>Admin Dashboard</title>
+    <title>{% block title %}{% endblock %}</title>
     <!--  Required Meta Tag -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,6 +31,10 @@
       rel="stylesheet"
       href="{%  static 'dashboard/css/style.min.css' %}"
     />
+    <!--JQuery-->
+    <script src="{% static 'dashboard/libs/jquery/dist/jquery.min.js' %}"></script>
+
+    {% block style %}{% endblock  %}
   </head>
   <body>
     <!-- Preloader -->
@@ -56,7 +60,6 @@
 
     <!--  Customizer -->
     <!--  Import Js Files -->
-    <script src="{% static 'dashboard/libs/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'dashboard/libs/simplebar/dist/simplebar.min.js' %}"></script>
     <script src="{% static 'dashboard/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <!--  core files -->
@@ -67,7 +70,7 @@
     <script src="{% static 'dashboard/js/custom.js'%}"></script>
     <!--  current page js files -->
     <script src="{% static 'dashboard/libs/owl.carousel/dist/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'dashboard/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
     <script src="{% static 'dashboard/js/dashboard.js'%}"></script>
+    {% block script %}{% endblock %}
   </body>
 </html>
