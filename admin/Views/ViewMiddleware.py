@@ -3,13 +3,12 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 
-class Controller(View):
+class ViewMiddleware(View):
 
     """
-    This is a universal controller for 
-    controller that need the validation and verification 
-    wheather they are superuser or not.
-    This controller acts as a middleware for all the controllers for admin app
+    This is a View Middleware for
+    all admin dashboard where user needs to be super user to 
+    access the admin dashboard
     """
     @classmethod
     def as_view(cls, *args, **kwargs):

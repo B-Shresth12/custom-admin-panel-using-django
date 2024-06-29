@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views import View
-from ..Controller import Controller
+from ..ViewMiddleware import ViewMiddleware
 from admin.Forms.SiteSettingForm import SitesettingBasicForm, SiteSettingSEOForm
 from admin.Models.SiteSetting import SiteSetting
 
@@ -10,7 +10,7 @@ from admin.Models.SiteSetting import SiteSetting
 from django.core.exceptions import ObjectDoesNotExist
 
 
-class SiteSettingController(Controller):
+class SiteSettingView(ViewMiddleware):
     def get(self, request):
         setting = SiteSetting.objects.get(pk=1)
 

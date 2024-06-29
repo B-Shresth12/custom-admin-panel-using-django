@@ -11,9 +11,9 @@ urlpatterns = [
     # Admin Dashboard Route
     path('', views.AdminDashboard.as_view(), name="dashboard"),
 
-    path('site-management/', views.SiteSettingController.as_view(), name="siteSetting"),
-    path('site-management/update', views.SiteSettingController.as_view(),
+    path('site-management/', views.SiteSettingView.as_view(), name="siteSetting"),
+    path('site-management/update', views.SiteSettingView.as_view(),
          {'action': 'update'}, name="siteSetting.update"),
-    path('site-management/update-seo', views.SiteSettingController.as_view(),
+    path('site-management/update-seo', views.SiteSettingView.as_view(),
          {'action': 'updateSEO'}, name="siteSetting.updateSEO"),
 ]
