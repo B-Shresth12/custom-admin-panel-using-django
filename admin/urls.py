@@ -9,7 +9,7 @@ urlpatterns = [
     path('logout/', views.AdminLogoutView.as_view(), name="logout"),
 
     # Admin Dashboard Route
-    path('', views.AdminDashboard.as_view(), name="dashboard"),
+    path('', views.DashboardView.as_view(), name="dashboard"),
 
     path('site-management/', views.SiteSettingView.as_view(), name="siteSetting"),
     path('site-management/update', views.SiteSettingView.as_view(),

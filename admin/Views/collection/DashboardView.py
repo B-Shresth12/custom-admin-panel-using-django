@@ -5,6 +5,6 @@ from django.views import View
 from ..ViewMiddleware import ViewMiddleware
 
 
-class AdminDashboard(ViewMiddleware):
+class DashboardView(ViewMiddleware):
     def get(self, request):
         return render(request, 'admin/dashboard.html')
