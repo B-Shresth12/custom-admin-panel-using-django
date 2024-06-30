@@ -56,25 +56,26 @@
                                 enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <input type="hidden" name="method" value="PUT" />
+                                {% comment %} <input type="hidden" name="action" value="update" /> {% endcomment %}
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="fa fa-image"></i>&nbsp;Site Logo</span>
-                                            <input type="file" class="dropify @error('logo') is-invalid @enderror"
+                                            <input type="file" class="dropify {% if form.logo.errors %}is-invalid{% endif %}"
                                                 name="logo"
-                                                data-default-file=""
+                                                data-default-file="media/{{ setting.logo }}"
                                                 {% comment %} data-max-width="314"
                                                 data-max-height="230" {% endcomment %}
                                                 data-show-remove="false"
                                                 data-allowed-file-extensions="jpeg png jpg">
                                             <span class="alert alert-warning w-100"><i class="fa fa-info"></i>&nbsp;
                                                 Recommended Size: 314 X 230 px</span>
-                                            {% comment %} @error('logo')
+                                            {% if form.logo.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                    {{ form.logo.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -82,7 +83,7 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="fa fa-image"></i>&nbsp;Favicon</span>
-                                            <input type="file" class="dropify @error('favicon') is-invalid @enderror"
+                                            <input type="file" class="dropify {% if form.favicon.errors %}is-invalid{% endif %}"
                                                 name="favicon"
                                                 data-default-file=""
                                                 data-show-remove="false"
@@ -91,11 +92,11 @@
                                                 data-allowed-file-extensions="jpeg png jpg">
                                             <span class="alert alert-warning w-100"><i class="fa fa-info"></i>&nbsp;
                                                 Recommended Size: 32 X 32 px</span>
-                                            {% comment %} @error('favicon')
+                                            {% if form.favicon.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                    {{ form.favicon.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -104,7 +105,7 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-apple"></i>&nbsp;Apple_touch</span>
                                             <input type="file"
-                                                class="dropify @error('apple_touch') is-invalid @enderror"
+                                                class="dropify {% if form.apple_touch.errors %}is-invalid{% endif %}"
                                                 name="apple_touch"
                                                 data-default-file=""
                                                 data-show-remove="false"
@@ -113,11 +114,11 @@
                                                 data-allowed-file-extensions="jpeg png jpg">
                                             <span class="alert alert-warning w-100"><i class="fa fa-info"></i>&nbsp;
                                                 Recommended Size: 180 X 180 px</span>
-                                            {% comment %} @error('apple_touch')
+                                            {% if form.apple_touch.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                    {{ form.apple_touch.errors }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -126,15 +127,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="fa fa-globe"></i>&nbsp;Site Name</span>
                                             <input type="text"
-                                                class="form-control @error('site_name') is-invalid @enderror"
+                                                class="form-control {% if form.site_name.errors %} is-invalid{% endif %}"
                                                 placeholder="Enter Site Title" aria-label="Enter Site Title"
                                                 aria-describedby="basic-addon1" name="site_name"
                                                 value="{{ setting.site_name }}">
-                                            {% comment %} @error('site_name')
+                                            {% if form.site_name.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.site_name.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -142,15 +143,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-at"></i>&nbsp;Site Email</span>
                                             <input type="text"
-                                                class="form-control @error('site_email') is-invalid @enderror"
+                                                class="form-control {% if form.site_email.errors %}is-invalid{% endif %}"
                                                 placeholder="Enter Site Email" aria-label="Enter Site Email"
                                                 aria-describedby="basic-addon1" name="site_email"
                                                 value="{{ setting.site_email }}" required>
-                                            {% comment %} @error('site_email')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                            {% if form.site_email.errors %}
+                                            <div class="invalid-feedback">
+                                                   {{ form.site_email.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -159,15 +160,17 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-phone"></i>&nbsp;Phone No.</span>
                                             <input type="text"
-                                                class="form-control @error('phone_no') is-invalid @enderror"
+                                                class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}"
                                                 placeholder="Enter Phone No." aria-label="Enter Phone No."
-                                                aria-describedby="basic-addon1" name="phone_no"
-                                                value="{{ setting.phone_number }}" required>
-                                            {% comment %} @error('phone_no')
+                                                aria-describedby="basic-addon1" name="phone_number"
+                                                value="{{ setting.phone_number }}" 
+                                                {% comment %} required {% endcomment %}
+                                                >
+                                            {% if form.phone_number.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.phone_number.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -175,15 +178,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-phone"></i>&nbsp;Mobile No.</span>
                                             <input type="text"
-                                                class="form-control @error('whatsApp_no') is-invalid @enderror"
+                                                class="form-control {% if form.logo.errors %}pp_no') is-invalid{% endif %}"
                                                 placeholder="Enter Phone No." aria-label="Enter Phone No."
-                                                aria-describedby="basic-addon1" name="mobile_no"
+                                                aria-describedby="basic-addon1" name="mobile_number"
                                                 value="{{ setting.mobile_number }}" required>
-                                            {% comment %} @error('mobile_no')
+                                            {% comment %} {% if form.logo.errors %}_no')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -192,15 +195,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-whatsapp"></i>&nbsp;WhatsApp No.</span>
                                             <input type="text"
-                                                class="form-control @error('whatsApp_no') is-invalid @enderror"
+                                                class="form-control {% if form.logo.errors %}pp_no') is-invalid{% endif %}"
                                                 placeholder="98xxxxxxxx" aria-label="Enter WhatsApp No."
-                                                aria-describedby="basic-addon1" name="whatsApp_no"
+                                                aria-describedby="basic-addon1" name="whatsApp_number"
                                                 value="{{ setting.whatsApp_number }}" required>
-                                            {% comment %} @error('whatsApp_no')
+                                            {% comment %} {% if form.logo.errors %}pp_no')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
                                     <div class="col-md-6"></div>
@@ -210,15 +213,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-facebook"></i>&nbsp;Facebook Url</span>
                                             <input type="text"
-                                                class="form-control @error('facebook_url') is-invalid @enderror"
+                                                class="form-control {% if form.logo.errors %}ok_url') is-invalid{% endif %}"
                                                 placeholder="Enter Facebook URL" aria-label="Enter Facebook URL"
                                                 aria-describedby="basic-addon1" name="facebook_url"
                                                 value="{{ setting.facebook_url }}" required>
-                                            {% comment %} @error('facebook_url')
+                                            {% comment %} {% if form.logo.errors %}ok_url')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -227,15 +230,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-youtube"></i>&nbsp;Youtube URL</span>
                                             <input type="text"
-                                                class="form-control @error('youtube_url') is-invalid @enderror"
+                                                class="form-control {% if form.logo.errors %}e_url') is-invalid{% endif %}"
                                                 placeholder="Enter Youtube URL" aria-label="Enter Youtube URL"
                                                 aria-describedby="basic-addon1" name="youtube_url"
                                                 value="{{ setting.youtube_url }}" required>
-                                            {% comment %} @error('youtube_url')
+                                            {% comment %} {% if form.logo.errors %}e_url')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -244,15 +247,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-linkedin"></i>&nbsp;Linked In URL</span>
                                             <input type="text"
-                                                class="form-control @error('linkedIn_url') is-invalid @enderror"
+                                                class="form-control {% if form.logo.errors %}In_url') is-invalid{% endif %}"
                                                 placeholder="Enter LinkedIn URL" aria-label="Enter LinkedIn URL"
                                                 aria-describedby="basic-addon1" name="linkedIn_url"
                                                 value="{{ setting.linkedIn_url }}" required>
-                                            {% comment %} @error('linkedIn_url')
+                                            {% comment %} {% if form.logo.errors %}In_url')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -261,15 +264,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-twitter"></i>&nbsp;Twitter URL</span>
                                             <input type="text"
-                                                class="form-control @error('twitter_url') is-invalid @enderror"
+                                                class="form-control {% if form.logo.errors %}r_url') is-invalid{% endif %}"
                                                 placeholder="Enter twitter URL" aria-label="Enter twitter URL"
                                                 aria-describedby="basic-addon1" name="twitter_url"
                                                 value="{{ setting.twitter_url }}" required>
-                                            {% comment %} @error('twitter_url')
+                                            {% comment %} {% if form.logo.errors %}r_url')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -278,15 +281,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-instagram"></i>&nbsp;Instagram URL</span>
                                             <input type="text"
-                                                class="form-control @error('instagram_url') is-invalid @enderror"
+                                                class="form-control {% if form.logo.errors %}ram_url') is-invalid{% endif %}"
                                                 placeholder="Enter Instagram URL" aria-label="Enter Instagram URL"
                                                 aria-describedby="basic-addon1" name="instagram_url"
                                                 value="{{ setting.instagram_url }}" required>
-                                            {% comment %} @error('instagram_url')
+                                            {% comment %} {% if form.logo.errors %}ram_url')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -296,12 +299,12 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-map-pin"></i>&nbsp;Address</span>
-                                            <textarea name="address" class="form-control @error('address') is-invalid @enderror" cols="30" rows="4">{{ setting.address }}</textarea>
-                                            {% comment %} @error('address')
+                                            <textarea name="address" class="form-control {% if form.logo.errors %}s') is-invalid{% endif %}" cols="30" rows="4">{{ setting.address }}</textarea>
+                                            {% comment %} {% if form.logo.errors %}s')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.value.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -309,13 +312,13 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-map-pin"></i>&nbsp;Google Map URL</span>
-                                            <textarea name="google_map_url" class="form-control @error('google_map_url') is-invalid @enderror" cols="30"
+                                            <textarea name="google_map_url" class="form-control {% if form.google_map_url.errors %}is-invalid{% endif %}" cols="30"
                                                 rows="4">{{ setting.google_map_url }}</textarea>
-                                            {% comment %} @error('google_map_url')
+                                            {% if form.google_map_url.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                   {{ form.google_map_url.errors|striptags }}
                                                 </div>
-                                            @enderror {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -341,27 +344,27 @@
                                                 <span class="input-group-text" id="basic-addon1"><i
                                                         class="fa fa-text-width"></i>&nbsp;Meta OG Title</span>
                                                 <input type="text"
-                                                    class="form-control @error('meta_og_title') is-invalid @enderror"
+                                                    class="form-control {% if form.logo.errors %}g_title') is-invalid{% endif %}"
                                                     name="meta_og_title" placeholder="Enter Meta And OG Title"
                                                     value="{{ setting.phone_number }}">
-                                                {% comment %} @error('meta_og_title')
+                                                {% comment %} {% if form.logo.errors %}g_title')
                                                     <div class="invalid-feedback">
                                                         
                                                     </div>
-                                                @enderror {% endcomment %}
+                                               {% endif %} {% endcomment %}
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1"><i
                                                         class="fa fa-text-width"></i>&nbsp;Meta Keywords</span>
-                                                <textarea name="meta_keywords" class="form-control @error('meta_keywords') is-invalid @enderror" cols="30"
+                                                <textarea name="meta_keywords" class="form-control {% if form.logo.errors %}eywords') is-invalid{% endif %}" cols="30"
                                                     rows="4"></textarea>
-                                                {% comment %} @error('meta_keywords')
+                                                {% comment %} {% if form.logo.errors %}eywords')
                                                     <div class="invalid-feedback">
-                                                        {{ $message }}
+                                                       {{ form.value.errors|striptags }}
                                                     </div>
-                                                @enderror {% endcomment %}
+                                               {% endif %} {% endcomment %}
                                                 <span class="alert alert-warning w-100"><i
                                                     class="fa fa-info"></i>&nbsp;Maximum keywords allowed: 10</span>
                                             </div>
@@ -370,13 +373,13 @@
                                                     <span class="input-group-text" id="basic-addon1"><i
                                                             class="fa fa-text-width"></i>&nbsp;Meta OG
                                                         Description</span>
-                                                    <textarea name="meta_og_description" class="form-control @error('meta_og_description') is-invalid @enderror"
+                                                    <textarea name="meta_og_description" class="form-control {% if form.logo.errors %}g_description') is-invalid{% endif %}"
                                                         cols="30" rows="4"></textarea>
-                                                    {% comment %} @error('meta_og_description')
+                                                    {% comment %} {% if form.logo.errors %}g_description')
                                                         <div class="invalid-feedback">
-                                                            {{ $message }}
+                                                           {{ form.value.errors|striptags }}
                                                         </div>
-                                                    @enderror {% endcomment %}
+                                                   {% endif %} {% endcomment %}
                                                     <span class="alert alert-warning w-100"><i
                                                             class="fa fa-info"></i>&nbsp;Characters must be between 155
                                                         - 160</span>
@@ -387,15 +390,15 @@
                                                     <span class="input-group-text" id="basic-addon1"><i
                                                             class="fa fa-image"></i>&nbsp;OG Image</span>
                                                     <input type="file"
-                                                        class="dropify @error('og_image') is-invalid @enderror"
+                                                        class="dropify {% if form.logo.errors %}ge') is-invalid{% endif %}"
                                                         name="og_image"
                                                         data-default-file=""
                                                         data-show-remove="false">
-                                                    {% comment %} @error('og_image')
+                                                    {% comment %} {% if form.logo.errors %}ge')
                                                         <div class="invalid-feedback">
-                                                            {{ $message }}
+                                                           {{ form.value.errors|striptags }}
                                                         </div>
-                                                    @enderror {% endcomment %}
+                                                   {% endif %} {% endcomment %}
                                                 </div>
                                             </div>
                                         </div>
