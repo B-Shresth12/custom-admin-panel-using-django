@@ -12,6 +12,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 # Importing ObjectDoesNotExist exception
 from django.core.exceptions import ObjectDoesNotExist
+# Importing Helper 
+from Helper.Helper import *
 
 
 class SiteSettingView(View):
@@ -20,23 +22,15 @@ class SiteSettingView(View):
             setting = SiteSetting.objects.first()
         except ObjectDoesNotExist:
             setting = None
+        
+        data = getContentData(request=request, rowData=setting, form_class=SitesettingBasicForm)
 
-        session = request.session.get('form_data', '')
-        if session:
-            del request.session['form_data']
-            type = session.get('type', '')
-            if "basic" in type:
-                form = SitesettingBasicForm(data=session.get('form', ''))
-                form._error = session.get('errors', {})
-        else:
-            form = None
-
+        # return HttpResponse(data.data.get('site_email'))
         return render(
             request,
             'admin/site-settings/index.html',
             {
-                'setting': setting,
-                'form': form
+                'data': data,
             })
 
     def post(self, request, *args, **kwargs):
@@ -55,6 +49,7 @@ class SiteSettingView(View):
 
         basicForm = SitesettingBasicForm(
             request.POST, request.FILES, instance=site_setting)
+        
         if basicForm.is_valid():
             basicForm.save()
 

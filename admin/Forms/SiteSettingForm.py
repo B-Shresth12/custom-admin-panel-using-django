@@ -1,14 +1,16 @@
 from django import forms
 from ..Models.SiteSetting import *
+from django.core.files.base import ContentFile
 
 # Validator
 from django.core.exceptions import ValidationError
 
-
+# Image Editor
+from PIL import Image
 """
 This class model is for the updaing the basic data for site settings
 """
-
+import io
 
 class SitesettingBasicForm(forms.ModelForm):
     class Meta:
@@ -27,7 +29,8 @@ class SitesettingBasicForm(forms.ModelForm):
             'address',
             'google_map_url',
             'logo',
-            'favicon'
+            'favicon',
+            'apple_touch'
         ]
 
     def clean_site_email(self):
@@ -106,6 +109,19 @@ class SitesettingBasicForm(forms.ModelForm):
                 raise ValidationError(
                     'File must be PNG, JPG, or JPEG')
 
+            # Open and resize the image using a BytesIO buffer
+            image = Image.open(favicon)
+            image = image.resize((32, 32), Image.LANCZOS)
+
+            # Save the image to a BytesIO buffer
+            buffer = io.BytesIO()
+            image.save(buffer, format=ext.upper())
+
+            # Create a new file from the buffer
+            buffer.seek(0)
+            new_file = ContentFile(buffer.read())
+            new_file.name = "favicon." + ext
+
         return favicon
 
     def apple_touch(self):
@@ -115,6 +131,11 @@ class SitesettingBasicForm(forms.ModelForm):
             if ext not in ['png', 'jpg', 'jpeg']:
                 raise ValidationError(
                     'File must be PNG, JPG, or JPEG')
+
+            # Opening and resizing the image
+            image = Image.open(apple_touch)
+            image = image.resize((180, 180), Image.LANCZOS)
+            apple_touch.name = "apple_touch." + ext
 
         return apple_touch
 

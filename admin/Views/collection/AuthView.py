@@ -11,6 +11,8 @@ from django.contrib.auth.forms import AuthenticationForm
 
 class AdminLoginView(View):
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('admin:dashboard')
         return render(request, 'admin/login.html')
 
     def post(self, request):

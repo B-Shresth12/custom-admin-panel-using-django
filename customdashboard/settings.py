@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-@s%s%wl(rp=1l*ghy(*h5t4#%(*_5esm$3zzu#r)lia!4a)2_u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'admin.middleware.AdminMiddleware'
+    'admin.AdminMiddleware.AdminLoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'customdashboard.urls'
@@ -129,7 +129,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type

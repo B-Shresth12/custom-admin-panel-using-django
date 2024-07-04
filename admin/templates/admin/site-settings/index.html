@@ -1,3 +1,5 @@
+
+
 {% extends "admin/layout.html" %}
 {% load static %}
 {% block title %}Site Setting Management{% endblock  %}
@@ -55,25 +57,23 @@
                             <form action="{% url 'admin:siteSetting.update' %}" method="POST"
                                 enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <input type="hidden" name="method" value="PUT" />
-                                {% comment %} <input type="hidden" name="action" value="update" /> {% endcomment %}
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="fa fa-image"></i>&nbsp;Site Logo</span>
-                                            <input type="file" class="dropify {% if form.logo.errors %}is-invalid{% endif %}"
+                                            <input type="file" class="dropify {% if data.logo.errors %}is-invalid{% endif %}"
                                                 name="logo"
-                                                data-default-file="media/{{ setting.logo }}"
+                                                data-default-file="{{ data.logo.value.url }}"
                                                 {% comment %} data-max-width="314"
                                                 data-max-height="230" {% endcomment %}
                                                 data-show-remove="false"
                                                 data-allowed-file-extensions="jpeg png jpg">
                                             <span class="alert alert-warning w-100"><i class="fa fa-info"></i>&nbsp;
                                                 Recommended Size: 314 X 230 px</span>
-                                            {% if form.logo.errors %}
+                                            {% if data.logo.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ form.logo.errors|striptags }}
+                                                    {{ data.logo.errors|striptags }}
                                                 </div>
                                            {% endif %}
                                         </div>
@@ -83,18 +83,18 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="fa fa-image"></i>&nbsp;Favicon</span>
-                                            <input type="file" class="dropify {% if form.favicon.errors %}is-invalid{% endif %}"
+                                            <input type="file" class="dropify {% if data.favicon.errors %}is-invalid{% endif %}"
                                                 name="favicon"
-                                                data-default-file=""
+                                                data-default-file="{{ data.favicon.value.url }}"
                                                 data-show-remove="false"
                                                 {% comment %} data-max-width="32"
                                                 data-max-height="32" {% endcomment %}
                                                 data-allowed-file-extensions="jpeg png jpg">
                                             <span class="alert alert-warning w-100"><i class="fa fa-info"></i>&nbsp;
                                                 Recommended Size: 32 X 32 px</span>
-                                            {% if form.favicon.errors %}
+                                            {% if data.favicon.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ form.favicon.errors|striptags }}
+                                                    {{ data.favicon.errors|striptags }}
                                                 </div>
                                            {% endif %}
                                         </div>
@@ -105,18 +105,18 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-apple"></i>&nbsp;Apple_touch</span>
                                             <input type="file"
-                                                class="dropify {% if form.apple_touch.errors %}is-invalid{% endif %}"
+                                                class="dropify {% if data.apple_touch.errors %}is-invalid{% endif %}"
                                                 name="apple_touch"
-                                                data-default-file=""
+                                                data-default-file="{{ data.apple_touch.value.url }}"
                                                 data-show-remove="false"
                                                 {% comment %} data-min-width="180"
                                                 data-min-height="180" {% endcomment %}
                                                 data-allowed-file-extensions="jpeg png jpg">
                                             <span class="alert alert-warning w-100"><i class="fa fa-info"></i>&nbsp;
                                                 Recommended Size: 180 X 180 px</span>
-                                            {% if form.apple_touch.errors %}
+                                            {% if data.apple_touch.errors %}
                                                 <div class="invalid-feedback">
-                                                    {{ form.apple_touch.errors }}
+                                                    {{ data.apple_touch.errors }}
                                                 </div>
                                            {% endif %}
                                         </div>
@@ -127,13 +127,13 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="fa fa-globe"></i>&nbsp;Site Name</span>
                                             <input type="text"
-                                                class="form-control {% if form.site_name.errors %} is-invalid{% endif %}"
+                                                class="form-control {% if data.site_name.errors %} is-invalid{% endif %}"
                                                 placeholder="Enter Site Title" aria-label="Enter Site Title"
                                                 aria-describedby="basic-addon1" name="site_name"
-                                                value="{{ setting.site_name }}">
-                                            {% if form.site_name.errors %}
+                                                value="{{ data.site_name.value }}">
+                                            {% if data.site_name.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.site_name.errors|striptags }}
+                                                   {{ data.site_name.errors|striptags }}
                                                 </div>
                                            {% endif %}
                                         </div>
@@ -143,13 +143,13 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-at"></i>&nbsp;Site Email</span>
                                             <input type="text"
-                                                class="form-control {% if form.site_email.errors %}is-invalid{% endif %}"
+                                                class="form-control {% if data.site_email.errors %}is-invalid{% endif %}"
                                                 placeholder="Enter Site Email" aria-label="Enter Site Email"
                                                 aria-describedby="basic-addon1" name="site_email"
-                                                value="{{ setting.site_email }}" required>
-                                            {% if form.site_email.errors %}
+                                                value="{{ data.site_email.value }}" required>
+                                            {% if data.site_email.errors %}
                                             <div class="invalid-feedback">
-                                                   {{ form.site_email.errors|striptags }}
+                                                   {{ data.site_email.errors|striptags }}
                                                 </div>
                                            {% endif %}
                                         </div>
@@ -160,15 +160,14 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-phone"></i>&nbsp;Phone No.</span>
                                             <input type="text"
-                                                class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}"
+                                                class="form-control {% if data.phone_number.errors %}is-invalid{% endif %}"
                                                 placeholder="Enter Phone No." aria-label="Enter Phone No."
                                                 aria-describedby="basic-addon1" name="phone_number"
-                                                value="{{ setting.phone_number }}" 
-                                                {% comment %} required {% endcomment %}
+                                                value="{{ data.phone_number.value }}" 
                                                 >
-                                            {% if form.phone_number.errors %}
+                                            {% if data.phone_number.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.phone_number.errors|striptags }}
+                                                   {{ data.phone_number.errors|striptags }}
                                                 </div>
                                            {% endif %}
                                         </div>
@@ -178,15 +177,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-phone"></i>&nbsp;Mobile No.</span>
                                             <input type="text"
-                                                class="form-control {% if form.logo.errors %}pp_no') is-invalid{% endif %}"
+                                                class="form-control {% if data.mobile_number.errors %}is-invalid{% endif %}"
                                                 placeholder="Enter Phone No." aria-label="Enter Phone No."
                                                 aria-describedby="basic-addon1" name="mobile_number"
-                                                value="{{ setting.mobile_number }}" required>
-                                            {% comment %} {% if form.logo.errors %}_no')
+                                                value="{{ data.mobile_number.value }}" required>
+                                            {% if data.mobile_number.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.mobile_number.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                            {% endif %}
                                         </div>
                                     </div>
 
@@ -195,15 +194,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-whatsapp"></i>&nbsp;WhatsApp No.</span>
                                             <input type="text"
-                                                class="form-control {% if form.logo.errors %}pp_no') is-invalid{% endif %}"
+                                                class="form-control {% if data.whatsApp_number.errors %}is-invalid{% endif %}"
                                                 placeholder="98xxxxxxxx" aria-label="Enter WhatsApp No."
                                                 aria-describedby="basic-addon1" name="whatsApp_number"
-                                                value="{{ setting.whatsApp_number }}" required>
-                                            {% comment %} {% if form.logo.errors %}pp_no')
+                                                value="{{ data.whatsApp_number.value }}" required>
+                                            {% if data.whatsApp_number.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.whatsApp_number.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
                                     <div class="col-md-6"></div>
@@ -213,15 +212,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-facebook"></i>&nbsp;Facebook Url</span>
                                             <input type="text"
-                                                class="form-control {% if form.logo.errors %}ok_url') is-invalid{% endif %}"
+                                                class="form-control {% if data.facebook_url.errors %}is-invalid{% endif %}"
                                                 placeholder="Enter Facebook URL" aria-label="Enter Facebook URL"
                                                 aria-describedby="basic-addon1" name="facebook_url"
-                                                value="{{ setting.facebook_url }}" required>
-                                            {% comment %} {% if form.logo.errors %}ok_url')
+                                                value="{{ data.facebook_url.value }}" required>
+                                            {% if data.facebook_url.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.facebook_url.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -230,15 +229,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-youtube"></i>&nbsp;Youtube URL</span>
                                             <input type="text"
-                                                class="form-control {% if form.logo.errors %}e_url') is-invalid{% endif %}"
+                                                class="form-control {% if data.youtube_url.errors %}e_url') is-invalid{% endif %}"
                                                 placeholder="Enter Youtube URL" aria-label="Enter Youtube URL"
                                                 aria-describedby="basic-addon1" name="youtube_url"
-                                                value="{{ setting.youtube_url }}" required>
-                                            {% comment %} {% if form.logo.errors %}e_url')
+                                                value="{{ data.youtube_url.value }}" required>
+                                            {% if data.youtube_url.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.youtube_url.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -247,15 +246,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-linkedin"></i>&nbsp;Linked In URL</span>
                                             <input type="text"
-                                                class="form-control {% if form.logo.errors %}In_url') is-invalid{% endif %}"
+                                                class="form-control {% if data.linkedIn_url.errors %} is-invalid{% endif %}"
                                                 placeholder="Enter LinkedIn URL" aria-label="Enter LinkedIn URL"
                                                 aria-describedby="basic-addon1" name="linkedIn_url"
-                                                value="{{ setting.linkedIn_url }}" required>
-                                            {% comment %} {% if form.logo.errors %}In_url')
+                                                value="{{ data.linkedIn_url.value }}" required>
+                                            {% if data.linkedIn_url.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.value.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -264,15 +263,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-twitter"></i>&nbsp;Twitter URL</span>
                                             <input type="text"
-                                                class="form-control {% if form.logo.errors %}r_url') is-invalid{% endif %}"
+                                                class="form-control {% if data.twitter_url.errors %} is-invalid{% endif %}"
                                                 placeholder="Enter twitter URL" aria-label="Enter twitter URL"
                                                 aria-describedby="basic-addon1" name="twitter_url"
-                                                value="{{ setting.twitter_url }}" required>
-                                            {% comment %} {% if form.logo.errors %}r_url')
+                                                value="{{ data.twitter_url.value }}" required>
+                                            {% if data.twitter_url.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.twitter_url.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -281,15 +280,15 @@
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-brand-instagram"></i>&nbsp;Instagram URL</span>
                                             <input type="text"
-                                                class="form-control {% if form.logo.errors %}ram_url') is-invalid{% endif %}"
+                                                class="form-control {% if data.instagram_url.errors %} is-invalid{% endif %}"
                                                 placeholder="Enter Instagram URL" aria-label="Enter Instagram URL"
                                                 aria-describedby="basic-addon1" name="instagram_url"
-                                                value="{{ setting.instagram_url }}" required>
-                                            {% comment %} {% if form.logo.errors %}ram_url')
+                                                value="{{ data.instagram_url.value }}" required>
+                                            {% if data.instagram_url.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.instagram_url.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -299,12 +298,16 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-map-pin"></i>&nbsp;Address</span>
-                                            <textarea name="address" class="form-control {% if form.logo.errors %}s') is-invalid{% endif %}" cols="30" rows="4">{{ setting.address }}</textarea>
-                                            {% comment %} {% if form.logo.errors %}s')
+                                            <textarea 
+                                                name="address" 
+                                                class="form-control 
+                                                {% if data.address.errors %}is-invalid{% endif %}" 
+                                                cols="30" rows="4">{{ data.address.value }}</textarea>
+                                            {% if data.address.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.value.errors|striptags }}
+                                                   {{ data.address.errors|striptags }}
                                                 </div>
-                                           {% endif %} {% endcomment %}
+                                           {% endif %}
                                         </div>
                                     </div>
 
@@ -312,11 +315,11 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1"><i
                                                     class="ti ti-map-pin"></i>&nbsp;Google Map URL</span>
-                                            <textarea name="google_map_url" class="form-control {% if form.google_map_url.errors %}is-invalid{% endif %}" cols="30"
-                                                rows="4">{{ setting.google_map_url }}</textarea>
-                                            {% if form.google_map_url.errors %}
+                                            <textarea name="google_map_url" class="form-control {% if data.google_map_url.errors %}is-invalid{% endif %}" cols="30"
+                                                rows="4">{{ data.google_map_url.value }}</textarea>
+                                            {% if data.google_map_url.errors %}
                                                 <div class="invalid-feedback">
-                                                   {{ form.google_map_url.errors|striptags }}
+                                                   {{ data.google_map_url.errors|striptags }}
                                                 </div>
                                            {% endif %}
                                         </div>
@@ -344,10 +347,10 @@
                                                 <span class="input-group-text" id="basic-addon1"><i
                                                         class="fa fa-text-width"></i>&nbsp;Meta OG Title</span>
                                                 <input type="text"
-                                                    class="form-control {% if form.logo.errors %}g_title') is-invalid{% endif %}"
+                                                    class="form-control {% if data.logo.errors %}g_title') is-invalid{% endif %}"
                                                     name="meta_og_title" placeholder="Enter Meta And OG Title"
                                                     value="{{ setting.phone_number }}">
-                                                {% comment %} {% if form.logo.errors %}g_title')
+                                                {% comment %} {% if data.logo.errors %}g_title')
                                                     <div class="invalid-feedback">
                                                         
                                                     </div>
@@ -358,11 +361,11 @@
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1"><i
                                                         class="fa fa-text-width"></i>&nbsp;Meta Keywords</span>
-                                                <textarea name="meta_keywords" class="form-control {% if form.logo.errors %}eywords') is-invalid{% endif %}" cols="30"
+                                                <textarea name="meta_keywords" class="form-control {% if data.logo.errors %}eywords') is-invalid{% endif %}" cols="30"
                                                     rows="4"></textarea>
-                                                {% comment %} {% if form.logo.errors %}eywords')
+                                                {% comment %} {% if data.logo.errors %}eywords')
                                                     <div class="invalid-feedback">
-                                                       {{ form.value.errors|striptags }}
+                                                       {{ data.value.errors|striptags }}
                                                     </div>
                                                {% endif %} {% endcomment %}
                                                 <span class="alert alert-warning w-100"><i
@@ -373,11 +376,11 @@
                                                     <span class="input-group-text" id="basic-addon1"><i
                                                             class="fa fa-text-width"></i>&nbsp;Meta OG
                                                         Description</span>
-                                                    <textarea name="meta_og_description" class="form-control {% if form.logo.errors %}g_description') is-invalid{% endif %}"
+                                                    <textarea name="meta_og_description" class="form-control {% if data.logo.errors %}g_description') is-invalid{% endif %}"
                                                         cols="30" rows="4"></textarea>
-                                                    {% comment %} {% if form.logo.errors %}g_description')
+                                                    {% comment %} {% if data.logo.errors %}g_description')
                                                         <div class="invalid-feedback">
-                                                           {{ form.value.errors|striptags }}
+                                                           {{ data.value.errors|striptags }}
                                                         </div>
                                                    {% endif %} {% endcomment %}
                                                     <span class="alert alert-warning w-100"><i
@@ -390,13 +393,13 @@
                                                     <span class="input-group-text" id="basic-addon1"><i
                                                             class="fa fa-image"></i>&nbsp;OG Image</span>
                                                     <input type="file"
-                                                        class="dropify {% if form.logo.errors %}ge') is-invalid{% endif %}"
+                                                        class="dropify {% if data.logo.errors %}ge') is-invalid{% endif %}"
                                                         name="og_image"
                                                         data-default-file=""
                                                         data-show-remove="false">
-                                                    {% comment %} {% if form.logo.errors %}ge')
+                                                    {% comment %} {% if data.logo.errors %}ge')
                                                         <div class="invalid-feedback">
-                                                           {{ form.value.errors|striptags }}
+                                                           {{ data.value.errors|striptags }}
                                                         </div>
                                                    {% endif %} {% endcomment %}
                                                 </div>
